@@ -3,6 +3,7 @@ import CustomerModel from "./sequilize/model/customer_model";
 import CustomerRepository from "./customer_repository";
 import Customer from "../../../domain/customer/entity/customer";
 import Address from "../../../domain/customer/value_object/address";
+
 describe("Customer repository test", () => {
   let sequelize: Sequelize;
 
@@ -14,7 +15,7 @@ describe("Customer repository test", () => {
       sync: { force: true },
     });
 
-    await sequelize.addModels([CustomerModel]);
+    sequelize.addModels([CustomerModel]);
     await sequelize.sync();
   });
 
