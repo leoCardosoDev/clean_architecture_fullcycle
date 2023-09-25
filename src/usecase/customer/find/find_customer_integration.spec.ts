@@ -5,7 +5,7 @@ import Customer from "../../../domain/customer/entity/customer";
 import Address from "../../../domain/customer/value_object/address";
 import FindCustomerUseCase from "./find_customer";
 
-describe("Customer repository test", () => {
+describe("Integration test find Customer", () => {
   let sequelize: Sequelize;
 
   beforeEach(async () => {
