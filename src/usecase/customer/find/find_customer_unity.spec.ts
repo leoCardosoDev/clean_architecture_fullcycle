@@ -1,5 +1,3 @@
-import CustomerModel from "../../../infra/customer/repository/sequilize/model/customer_model";
-import CustomerRepository from "../../../infra/customer/repository/customer_repository";
 import Customer from "../../../domain/customer/entity/customer";
 import Address from "../../../domain/customer/value_object/address";
 import FindCustomerUseCase from "./find_customer";
@@ -34,5 +32,18 @@ describe("Customer repository unit test", () => {
     }
     const result = await usecase.execute(input);
     expect(result).toEqual(output);
-  })
+  });
+
+  it("should not find a customer", async () => {
+    const customerRepository = MockRepository();
+    customerRepository.find.mockImplementation(() => {
+      throw new Error("Customer not found");
+    });
+    const usecase = new FindCustomerUseCase(customerRepository);
+    const input = {id: "123"}
+    expect(() => {
+      return usecase.execute(input);
+    }).rejects.toThrow("Customer not found");
+  });
+
 });
