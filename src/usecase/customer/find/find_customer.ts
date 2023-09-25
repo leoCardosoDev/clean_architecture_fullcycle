@@ -20,6 +20,6 @@ export default class FindCustomerUseCase {
         zip: customer.address.zip,
         city: customer.address.city,
       }
-    }
+    };
   }
 }
