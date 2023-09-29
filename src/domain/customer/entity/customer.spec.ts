@@ -1,7 +1,6 @@
 import Address from "../value_object/address";
 import Customer from "./customer";
 import Notification from "../../@shared/notification/notification";
-import NotificationError from "../../@shared/notification/notification_error";
 
 describe("Customer Unit test", () => {
 
