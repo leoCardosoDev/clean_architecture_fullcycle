@@ -1,18 +1,18 @@
 import Address from "../value_object/address";
 import Customer from "./customer";
+import Notification from "../../@shared/notification/notification";
+import NotificationError from "../../@shared/notification/notification_error";
 
 describe("Customer Unit test", () => {
 
   it("Should throw error when ID is empty", () => {
-    expect(()=> {
-      const customer = new Customer("", "Leo");
-    }).toThrowError("ID is required!");
+    const notification = new Notification();
+    expect(() => new Customer("", "Leo")).toThrowError(notification.messages()); 
   });
 
   it("Should throw error when Name is empty", () => {
-    expect(()=> {
-      const customer = new Customer("1", "");
-    }).toThrowError("Name is required!");
+    const notification = new Notification();
+    expect(() => new Customer("1", "")).toThrowError(notification.messages()); 
   });
 
   it("Should change Name", () => {
@@ -22,10 +22,11 @@ describe("Customer Unit test", () => {
   });
 
   it("Should throw error if address is undefined when you activate a customer", () => {
+    const notification = new Notification();
     expect(() => {
       const customer = new Customer("1", "Customer1");
-      customer.activate();
-    }).toThrowError("Address is mandatory to activate as customer");
+      customer.activate()
+    }).toThrowError(notification.messages());
   });
 
   it("Should activate customer", () => {

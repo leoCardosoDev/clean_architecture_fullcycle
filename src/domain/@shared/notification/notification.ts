@@ -1,12 +1,21 @@
-export type NotificationError = {
+export type NotificationErrorProps = {
   message: string,
   context: string
 }
 
 export default class Notification {
-  private errors: NotificationError[] = [];
-  addError(error: NotificationError) {
+  private errors: NotificationErrorProps[] = [];
+
+  addError(error: NotificationErrorProps) {
     this.errors.push(error);
+  }
+
+  getErrors(): NotificationErrorProps[] {
+    return this.errors;
+  }
+
+  hasErrors(): boolean {
+    return this.errors.length > 0;
   }
 
   messages(context?: string): string {

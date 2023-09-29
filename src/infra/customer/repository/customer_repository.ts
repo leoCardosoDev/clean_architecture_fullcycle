@@ -6,7 +6,7 @@ import CustomerModel from "./sequilize/model/customer_model";
 export default class CustomerRepository implements CustomerRepositoryInterface {
   async create(entity: Customer): Promise<void> {
     await CustomerModel.create({
-      id: entity.id,
+      id: entity.getId(),
       name: entity.name,
       active: entity.isActive(),
       rewardPoints: entity.rewardPoints,
@@ -28,7 +28,7 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
       city: entity.address.city,
     }, {
       where: {
-        id: entity.id
+        id: entity.getId()
       }
     });
   }
