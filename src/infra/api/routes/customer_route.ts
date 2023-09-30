@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import CustomerCreateUseCase from "../../../usecase/customer/create/create_customer"
 import CustomerRepository from "../../customer/repository/customer_repository"
 import ListCustomerUseCase from "../../../usecase/customer/list/list_customer";
+import CustomerPresenter from "../presenter/customer_presenter";
 
 export const customerRoute = express.Router();
 
@@ -26,10 +27,9 @@ customerRoute.post('/', async (req: Request, res: Response) => {
 
 customerRoute.get('/', async (req: Request, res: Response) => {
   const usecase = new ListCustomerUseCase( new CustomerRepository());
-  try {
-    const output = await usecase.execute({});
-    res.send(output);
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  const output = await usecase.execute({});
+  res.format({
+    json: async () => res.send(output),
+    xml: async () => res.send(CustomerPresenter.toXML(output))
+  });
 });

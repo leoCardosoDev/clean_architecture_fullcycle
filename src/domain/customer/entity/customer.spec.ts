@@ -1,54 +1,69 @@
 import Address from "../value_object/address";
 import Customer from "./customer";
-import Notification from "../../@shared/notification/notification";
 
-describe("Customer Unit test", () => {
-
-  it("Should throw error when ID is empty", () => {
-    const notification = new Notification();
-    expect(() => new Customer("", "Leo")).toThrowError(notification.messages()); 
+describe("Customer unit tests", () => {
+  it("should throw error when id is empty", () => {
+    expect(() => {
+      let customer = new Customer("", "John");
+    }).toThrowError("customer: Id is required");
   });
 
-  it("Should throw error when Name is empty", () => {
-    const notification = new Notification();
-    expect(() => new Customer("1", "")).toThrowError(notification.messages()); 
+  it("should throw error when name is empty", () => {
+    expect(() => {
+      let customer = new Customer("123", "");
+    }).toThrowError("customer: Name is required");
   });
 
-  it("Should change Name", () => {
+  it("should throw error when name is and id are empty", () => {
+    expect(() => {
+      let customer = new Customer("", "");
+    }).toThrowError("customer: Id is required,customer: Name is required");
+  });
+
+  it("should change name", () => {
+    // Arrange
     const customer = new Customer("123", "John");
+
+    // Act
     customer.changeName("Jane");
+
+    // Assert
     expect(customer.name).toBe("Jane");
   });
 
-  it("Should throw error if address is undefined when you activate a customer", () => {
-    const notification = new Notification();
-    expect(() => {
-      const customer = new Customer("1", "Customer1");
-      customer.activate()
-    }).toThrowError(notification.messages());
-  });
-
-  it("Should activate customer", () => {
-    const customer = new Customer("1", "Customer1");
-    const address = new Address("Street 1",123, "12345-678", "Barueri");
+  it("should activate customer", () => {
+    const customer = new Customer("1", "Customer 1");
+    const address = new Address("Street 1", 123, "13330-250", "São Paulo");
     customer.Address = address;
+
     customer.activate();
+
     expect(customer.isActive()).toBe(true);
   });
 
-  it("Should deactivate customer", () => {
-    const customer = new Customer("1", "Customer1");
+  it("should throw error when address is undefined when you activate a customer", () => {
+    expect(() => {
+      const customer = new Customer("1", "Customer 1");
+      customer.activate();
+    }).toThrowError("Address is mandatory to activate a customer");
+  });
+
+  it("should deactivate customer", () => {
+    const customer = new Customer("1", "Customer 1");
+
     customer.deactivate();
+
     expect(customer.isActive()).toBe(false);
   });
 
-  it("Should add reward points", () => {
+  it("should add reward points", () => {
     const customer = new Customer("1", "Customer 1");
     expect(customer.rewardPoints).toBe(0);
+
     customer.addRewardPoints(10);
     expect(customer.rewardPoints).toBe(10);
-    customer.addRewardPoints(20);
-    expect(customer.rewardPoints).toBe(30);
-  });
 
+    customer.addRewardPoints(10);
+    expect(customer.rewardPoints).toBe(20);
+  });
 });

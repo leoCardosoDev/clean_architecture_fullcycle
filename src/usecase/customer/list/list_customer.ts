@@ -17,7 +17,7 @@ class OutputMapper {
   static toOutput(customer: Customer[]): OutputListCustomerDto {
     return {
       customers: customer.map((customer) => ({
-        id: customer.getId(),
+        id: customer.id,
         name: customer.name,
         address: {
           street: customer.address.street,

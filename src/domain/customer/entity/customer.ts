@@ -1,42 +1,33 @@
 import Entity from "../../@shared/entity/entity_abstract";
+import Address from "../value_object/address";
 import NotificationError from "../../@shared/notification/notification_error";
 import CustomerValidatorFactory from "../factory/customer_validator_factory";
-import Address from "../value_object/address";
 
-export default class Customer extends Entity{
-  private _name: string;
+export default class Customer extends Entity {
+  private _name: string = "";
   private _address!: Address;
   private _active: boolean = false;
   private _rewardPoints: number = 0;
 
   constructor(id: string, name: string) {
     super();
-    this.id = id;
+    this._id = id;
     this._name = name;
     this.validate();
-
-    if(this.notification.hasErrors()) {
+    if (this.notification.hasErrors()) {
       throw new NotificationError(this.notification.getErrors());
     }
-  }
-
-  getId(): string {
-    return this.id;
   }
 
   get name(): string {
     return this._name;
   }
 
-  get address(): Address {
-    return this._address;
-  }
-
   get rewardPoints(): number {
     return this._rewardPoints;
   }
 
-  validate(){
+  validate() {
     CustomerValidatorFactory.create().validate(this);
   }
 
@@ -44,37 +35,35 @@ export default class Customer extends Entity{
     this._name = name;
     this.validate();
   }
-  
+
+  get address(): Address {
+    return this._address;
+  }
+
   changeAddress(address: Address) {
     this._address = address;
-    this.validate();
   }
-  
-  isActive() {
+
+  isActive(): boolean {
     return this._active;
   }
 
-  activate(){
-    if(this._address === undefined) {
-      this.notification.addError({
-        message: "Address is mandatory to activate as customer",
-        context: "customer"
-      });
-      throw new NotificationError(this.notification.getErrors());
+  activate() {
+    if (this._address === undefined) {
+      throw new Error("Address is mandatory to activate a customer");
     }
-    
     this._active = true;
+  }
+
+  deactivate() {
+    this._active = false;
+  }
+
+  addRewardPoints(points: number) {
+    this._rewardPoints += points;
   }
 
   set Address(address: Address) {
     this._address = address;
-  }
-  
-  deactivate(){
-    this._active = false;
-  }
-
-  addRewardPoints(points:number) {
-    this._rewardPoints += points;
   }
 }

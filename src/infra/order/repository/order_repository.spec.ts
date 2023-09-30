@@ -144,7 +144,7 @@ describe("Order repository test", () => {
       3
     );
 
-    const order = new Order("123", customer.getId(), [orderItem]);
+    const order = new Order("123", customer.id, [orderItem]);
     const orderRepository = new OrderRepository();
     await orderRepository.create(order);
 
@@ -174,10 +174,10 @@ describe("Order repository test", () => {
     );
     const orderItem2 = new OrderItem("2", "123", "Product 2", 20, 3);
 
-    const order1 = new Order("1", customer.getId(), [orderItem1]);
+    const order1 = new Order("1", customer.id, [orderItem1]);
     await orderRepository.create(order1);
 
-    const order2 = new Order("2", customer.getId(), [orderItem2]);
+    const order2 = new Order("2", customer.id, [orderItem2]);
     await orderRepository.create(order2);
 
     const orders = await orderRepository.findAll();
